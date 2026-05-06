@@ -62,7 +62,7 @@ public class ConsultaService {
 
         entity.setData(consultaDto.getDataConsulta());
         entity.setStatus(consultaDto.getStatus());
-        entity.getId()
+        entity.getId()3''
 
 
         return true;
