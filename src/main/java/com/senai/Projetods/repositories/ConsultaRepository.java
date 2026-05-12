@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConsultaRepository extends JpaRepository<ConsultaEntity, Long> {
     boolean existsByTitulo(String titulo);
+    boolean existsById(Long id);
+
 
 }

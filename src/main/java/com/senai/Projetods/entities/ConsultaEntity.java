@@ -1,17 +1,15 @@
 package com.senai.Projetods.entities;
 
-
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.senai.Projetods.dtos.ConsultaDto;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
+@Entity
 public class ConsultaEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,54 +17,44 @@ public class ConsultaEntity {
     @NotNull(message = "Título não pode ser vazio")
     private String titulo;
 
-   @NotNull(message = "Data não pode ser vazia")
+    @NotNull(message = "Data não pode ser vazia")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date data;
 
+    private String tipo = "Agendada";
 
-    private String status;
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private PacienteEntity paciente;
 
     public ConsultaEntity() {
-
     }
 
-    public ConsultaEntity(ConsultaDto consultaDto){
-        if (consultaDto.getId() > 0L) {
+    public ConsultaEntity(ConsultaDto consultaDto, PacienteEntity paciente) {
+        if (consultaDto.getId() != null) {
             this.id = consultaDto.getId();
         }
+
         this.titulo = consultaDto.getTitulo();
         this.data = consultaDto.getData();
-        this.status = consultaDto.getStatus();
+
+        this.tipo = consultaDto.getTipo() != null ? consultaDto.getTipo() : "Agendada";
+
+        this.paciente = paciente;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
 
-    public String getTitulo() {
-        return titulo;
-    }
+    public Date getData() { return data; }
+    public void setData(Date data) { this.data = data; }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public PacienteEntity getPaciente() { return paciente; }
+    public void setPaciente(PacienteEntity paciente) { this.paciente = paciente; }
 }

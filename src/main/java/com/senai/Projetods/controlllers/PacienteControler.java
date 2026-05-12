@@ -25,7 +25,7 @@ public class PacienteControler {
         return ResponseEntity.badRequest().body("Erro ao cadastrar: Paciente já existe.");
     }
 
-    @GetMapping("/pacientes")
+    @GetMapping("/paciente0")
     public ResponseEntity<List<PacienteDto>> listar() {
         return ResponseEntity.ok(service.obterPaciente());
     }
@@ -46,6 +46,7 @@ public class PacienteControler {
         }
         return ResponseEntity.status(404).body("Erro: Paciente não encontrado.");
     }
+
 }
 
 

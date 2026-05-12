@@ -3,6 +3,7 @@ package com.senai.Projetods.dtos;
 import com.senai.Projetods.entities.PacienteEntity;
 
 public class PacienteDto {
+
     private Long id;
     private String nome;
     private String email;
@@ -12,9 +13,7 @@ public class PacienteDto {
     }
 
     public PacienteDto(PacienteEntity entity) {
-        if (entity.getId() > 0L){
-            this.id = entity.getId();
-        }
+        this.id = entity.getId();
         this.nome = entity.getNome();
         this.email = entity.getEmail();
     }

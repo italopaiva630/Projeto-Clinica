@@ -1,19 +1,24 @@
 package com.senai.Projetods.entities;
 
 import com.senai.Projetods.dtos.PacienteDto;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@Entity
 public class PacienteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull(message = "Nome não pode ser vazio")
+    @NotBlank(message = "Nome não pode conter espaços vazios")
     private String nome;
+
     @NotNull(message = "E-mail não pode ser vazio")
     @NotBlank(message = "E-mail não pode conter espaços vazios")
     private String email;
@@ -23,9 +28,6 @@ public class PacienteEntity {
     }
 
     public PacienteEntity(PacienteDto pacienteDto) {
-        if (pacienteDto.getId() > 0L) {
-           this.id = pacienteDto.getId();
-        }
         this.nome = pacienteDto.getNome();
         this.email = pacienteDto.getEmail();
     }
