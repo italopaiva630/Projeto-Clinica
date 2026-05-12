@@ -1,5 +1,6 @@
 package com.senai.Projetods.entities;
 
+import com.senai.Projetods.dtos.PacienteDto;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,7 +11,7 @@ public class PacienteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @NotNull(message = "Nome não pode ser vazio")
     private String nome;
     @NotNull(message = "E-mail não pode ser vazio")
@@ -21,11 +22,19 @@ public class PacienteEntity {
 
     }
 
-    public Integer getId() {
+    public PacienteEntity(PacienteDto pacienteDto) {
+        if (pacienteDto.getId() > 0L) {
+           this.id = pacienteDto.getId();
+        }
+        this.nome = pacienteDto.getNome();
+        this.email = pacienteDto.getEmail();
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

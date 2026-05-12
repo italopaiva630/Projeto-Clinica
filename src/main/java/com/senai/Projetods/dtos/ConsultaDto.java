@@ -1,18 +1,30 @@
 package com.senai.Projetods.dtos;
 
+import com.senai.Projetods.entities.ConsultaEntity;
+
 import java.util.Date;
 
 public class ConsultaDto {
     private Long id;
     private String titulo;
-    private Date dataConsulta;
+    private Date data;
     private String status;
 
-    public ConsultaDto(Long id, String titulo, Date dataConsulta, String status) {
+    public ConsultaDto(Long id, String titulo, Date data, String status) {
         this.id = id;
         this.titulo = titulo;
-        this.dataConsulta = dataConsulta;
+        this.data = data;
         this.status = status;
+    }
+
+    public ConsultaDto(ConsultaEntity entity) {
+        this.id = entity.getId();
+        this.titulo = entity.getTitulo();
+        this.data = entity.getData(); // ou getData() conforme seu campo
+        this.status = entity.getStatus();
+    }
+
+    public ConsultaDto() {
     }
 
     public Long getId() {
@@ -31,12 +43,12 @@ public class ConsultaDto {
         this.titulo = titulo;
     }
 
-    public Date getDataConsulta() {
-        return dataConsulta;
+    public Date getData() {
+        return data;
     }
 
-    public void setDataConsulta(Date dataConsulta) {
-        this.dataConsulta = dataConsulta;
+    public void setData(Date data) {
+        this.data = data;
     }
 
     public String getStatus() {

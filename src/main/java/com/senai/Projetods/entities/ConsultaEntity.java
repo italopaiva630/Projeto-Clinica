@@ -2,6 +2,7 @@ package com.senai.Projetods.entities;
 
 
 
+import com.senai.Projetods.dtos.ConsultaDto;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,6 +27,15 @@ public class ConsultaEntity {
 
     public ConsultaEntity() {
 
+    }
+
+    public ConsultaEntity(ConsultaDto consultaDto){
+        if (consultaDto.getId() > 0L) {
+            this.id = consultaDto.getId();
+        }
+        this.titulo = consultaDto.getTitulo();
+        this.data = consultaDto.getData();
+        this.status = consultaDto.getStatus();
     }
 
     public Long getId() {

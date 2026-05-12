@@ -2,6 +2,7 @@ package com.senai.Projetods.servicies;
 
 import com.senai.Projetods.dtos.PacienteDto;
 import com.senai.Projetods.entities.PacienteEntity;
+import com.senai.Projetods.repositories.PacienteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,55 +11,54 @@ import java.util.List;
 @Service
 public class PacienteService {
 
-        private List<PacienteEntity> listapaciente = new ArrayList<>();
+    private final PacienteRepository repository;
+    private List<PacienteEntity> listapaciente = new ArrayList<>();
+
+    public PacienteService(PacienteRepository repository) {
+        this.repository = repository;
+    }
+
+    public Boolean cadastraUsuario(PacienteDto pacienteDto) {
+        if (!repository.existsByNome(pacienteDto.getNome())) {
+            return false;
+        }
+        PacienteEntity entity = new PacienteEntity(pacienteDto);
+        repository.save(entity);
+        return true;
+    }
+
+    public Boolean deletarUsuario(PacienteDto pacienteDto){
+        Long id = pacienteDto.getId();
+        if (!repository.existsById(id)){
+            return false;
+        }
+        repository.deleteById(id);
+        return true;
+    }
 
 
-        public Boolean cadastrausuario(PacienteDto pacienteDto) {
-            for (PacienteEntity entity : listapaciente) {
-                if (entity.getNome().equals(pacienteDto.getNome())) {
-                    return false;
-                }
-            }
-            PacienteEntity pacienteEntity = new PacienteEntity();
+    public List<PacienteDto> obterPaciente() {
+        List<PacienteEntity> listaPaciente = repository.findAll();
+        List<PacienteDto> listaPacienteDto = new ArrayList<>();
 
-            pacienteEntity.setNome(pacienteDto.getNome());
-            pacienteEntity.setEmail(pacienteDto.getEmail());
-            listapaciente.add(pacienteEntity);
-
-            return true;
+        for (PacienteEntity entity : listaPaciente) {
+            PacienteDto dto = new PacienteDto(entity);
+            listaPacienteDto.add(dto);
         }
 
-
-        public List<PacienteEntity> exibepaciente(){
-
-            for(PacienteEntity pacienteEntity : listapaciente){
-                System.out.println(pacienteEntity);
-
-            }
+        return listaPacienteDto;
+    }
 
 
-            return listapaciente;
-
-
+    public boolean atualizapaciente(Long id, PacienteDto pacienteDto) {
+        if (!repository.existsById(id)) {
+            return false;
         }
+        PacienteEntity pacienteEntity = new PacienteEntity(pacienteDto);
+        pacienteEntity.setId(id);
 
+        repository.save(pacienteEntity);
 
-
-        public boolean atualizapaciente(PacienteDto pacienteDto){
-
-            for(PacienteEntity pacienteEntity : listapaciente)
-                if(!pacienteEntity.getNome().equals(pacienteDto.getNome())){
-
-                    return false;
-                }
-
-            else
-                {
-
-                }
-
-            return true;
-
-
+        return true;
     }
 }
