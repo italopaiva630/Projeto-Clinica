@@ -41,7 +41,7 @@ public class ConsultaController {
         return ResponseEntity.status(404).body("Consulta com ID " + id + " não encontrada.");
     }
 
-    @DeleteMapping
+    @DeleteMapping("/consulta1")
     public ResponseEntity<String> deletar(@RequestBody ConsultaDto dto) {
         if (service.deletarConsulta(dto)) {
             return ResponseEntity.ok("Consulta deletada com sucesso!");

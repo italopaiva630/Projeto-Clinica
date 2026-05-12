@@ -17,7 +17,7 @@ public class PacienteControler {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/paciente")
     public ResponseEntity<String> cadastrar(@RequestBody PacienteDto dto) {
         if (service.cadastraUsuario(dto)) {
             return ResponseEntity.ok("Paciente cadastrado com sucesso!");
@@ -25,13 +25,13 @@ public class PacienteControler {
         return ResponseEntity.badRequest().body("Erro ao cadastrar: Paciente já existe.");
     }
 
-    @GetMapping
+    @GetMapping("/pacientes")
     public ResponseEntity<List<PacienteDto>> listar() {
         return ResponseEntity.ok(service.obterPaciente());
     }
 
     // Atualização usando o ID na URL (/pacientes/1)
-    @PutMapping("/{id}")
+    @PutMapping("/atualiza/{id}")
     public ResponseEntity<String> atualizar(@PathVariable Long id, @RequestBody PacienteDto dto) {
         if (service.atualizapaciente(id, dto)) {
             return ResponseEntity.ok("Paciente atualizado com sucesso!");
@@ -39,7 +39,7 @@ public class PacienteControler {
         return ResponseEntity.status(404).body("Paciente com ID " + id + " não encontrado.");
     }
 
-    @DeleteMapping
+    @DeleteMapping("/paciente1")
     public ResponseEntity<String> deletar(@RequestBody PacienteDto dto) {
         if (service.deletarUsuario(dto)) {
             return ResponseEntity.ok("Paciente deletado com sucesso!");
