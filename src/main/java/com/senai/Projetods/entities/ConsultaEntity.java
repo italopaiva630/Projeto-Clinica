@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.senai.Projetods.dtos.ConsultaDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Date;
 
@@ -21,14 +22,14 @@ public class ConsultaEntity {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date data;
 
-    private String tipo = "Agendada";
+    @NotNull(message = "Tipo não pode ser vazio")
+    private String tipo; // informado no cadastro
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")
     private PacienteEntity paciente;
 
-    public ConsultaEntity() {
-    }
+    public ConsultaEntity() {}
 
     public ConsultaEntity(ConsultaDto consultaDto, PacienteEntity paciente) {
         if (consultaDto.getId() != null) {
@@ -37,12 +38,11 @@ public class ConsultaEntity {
 
         this.titulo = consultaDto.getTitulo();
         this.data = consultaDto.getData();
-
-        this.tipo = consultaDto.getTipo() != null ? consultaDto.getTipo() : "Agendada";
-
+        this.tipo = consultaDto.getTipo(); // obrigatório no cadastro
         this.paciente = paciente;
     }
 
+    // getters e setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

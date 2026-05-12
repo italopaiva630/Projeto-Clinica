@@ -21,13 +21,19 @@ public class ConsultaService {
         this.pacienteRepository = pacienteRepository;
     }
 
-    public Boolean cadastraconsulta(ConsultaDto consultaDto) {
+    public Boolean cadastrarConsulta(ConsultaDto consultaDto) {
         if (repository.existsByTitulo(consultaDto.getTitulo())) {
             return false;
         }
 
         PacienteEntity paciente = pacienteRepository.findById(consultaDto.getPacienteId()).orElse(null);
         if (paciente == null) {
+            return false;
+        }
+
+        // validação do tipo
+        String tipo = consultaDto.getTipo();
+        if (!"Presencial".equalsIgnoreCase(tipo) && !"Online".equalsIgnoreCase(tipo)) {
             return false;
         }
 
@@ -56,13 +62,19 @@ public class ConsultaService {
         return listaConsultaDto;
     }
 
-    public boolean atualizaConsulta(Long id, ConsultaDto consultaDto) {
+    public boolean atualizarConsulta(Long id, ConsultaDto consultaDto) {
         if (!repository.existsById(id)) {
             return false;
         }
 
         PacienteEntity paciente = pacienteRepository.findById(consultaDto.getPacienteId()).orElse(null);
         if (paciente == null) {
+            return false;
+        }
+
+        // validação do tipo
+        String tipo = consultaDto.getTipo();
+        if (!"Presencial".equalsIgnoreCase(tipo) && !"Online".equalsIgnoreCase(tipo)) {
             return false;
         }
 
